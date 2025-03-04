@@ -13,7 +13,25 @@ use std::fmt::{self, Display, Formatter};
 
 pub fn is_palindrome(s: String) -> bool {
     // TODO: Implement the logic to check if the string is a palindrome
-    false // Placeholder return value
+    // 将字符串规范化：转换为小写并保留字母和数字字符
+    let normalized: Vec<char> = s.to_lowercase()
+                                .chars()
+                                .filter(|c| c.is_alphanumeric())
+                                .collect();
+    
+    // 使用双指针法检查是否为回文
+    let mut left = 0;
+    let mut right = normalized.len().saturating_sub(1); // 使用 saturating_sub 避免 len 为 0 时溢出
+    
+    while left < right {
+        if normalized[left] != normalized[right] {
+            return false;
+        }
+        left += 1;
+        right = right.saturating_sub(1);
+    }
+    
+    true
 }
 
 #[cfg(test)]
